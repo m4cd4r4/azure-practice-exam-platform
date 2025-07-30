@@ -1,0 +1,47 @@
+[
+  {
+    "id": "az104-001",
+    "examType": "AZ-104",
+    "category": "Identity and Access Management",
+    "difficulty": "Easy",
+    "question": "What is an Azure AD Account?",
+    "options": [
+      "An identity created through Azure AD or another Microsoft cloud service, such as Microsoft 365",
+      "A local account on an Azure virtual machine (VM)",
+      "An account used for billing purposes in Azure",
+      "An account with administrative privileges for managing Azure resources"
+    ],
+    "correctAnswer": 0,
+    "explanation": "An Azure AD account refers to an identity created through Azure Active Directory (Azure AD) or another Microsoft cloud service, such as Microsoft 365. It allows users to authenticate and access various Microsoft services and resources."
+  },
+  {
+    "id": "az104-002",
+    "examType": "AZ-104",
+    "category": "Identity and Access Management",
+    "difficulty": "Medium",
+    "question": "Which of the following can be used to manage governance across multiple Azure subscriptions?",
+    "options": [
+      "Resource groups",
+      "Azure Policy",
+      "Management groups",
+      "Role-based access control (RBAC)"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Management groups provide a level of scope above subscriptions and allow you to apply governance conditions across multiple Azure subscriptions efficiently."
+  },
+  {
+    "id": "az104-003",
+    "examType": "AZ-104",
+    "category": "Identity and Access Management",
+    "difficulty": "Easy",
+    "question": "What is the maximum number of custom roles that can be created in an Azure AD tenant?",
+    "options": [
+      "2,000",
+      "5,000",
+      "10,000",
+      "Unlimited"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Azure AD supports up to 5,000 custom roles per tenant, providing flexibility for organizations to create specific role definitions for their needs."
+  }
+]

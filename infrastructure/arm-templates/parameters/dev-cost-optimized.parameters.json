@@ -1,0 +1,33 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "environment": {
+      "value": "dev"
+    },
+    "projectName": {
+      "value": "azpracticeexam"
+    },
+    "location": {
+      "value": "Australia East"
+    },
+    "enableSqlDatabase": {
+      "value": false
+    },
+    "useAzureTablesInsteadOfCosmosDb": {
+      "value": true
+    },
+    "tags": {
+      "value": {
+        "Project": "Azure Practice Exam Platform",
+        "Environment": "development",
+        "CreatedBy": "ARM Template",
+        "CostCenter": "Development",
+        "Owner": "DevTeam",
+        "Purpose": "Learning Platform",
+        "CostOptimized": "true",
+        "TargetCost": "$0-5/month"
+      }
+    }
+  }
+}
