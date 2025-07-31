@@ -1,6 +1,6 @@
 # Azure Practice Exam Platform
 
-🎯 **Mission**: Provide high-quality, affordable practice exams for Azure certifications while demonstrating enterprise-grade cloud architecture.
+🎯 **Mission**: Provide high-quality practice exams for Azure certifications while demonstrating enterprise-grade cloud architecture.
 
 ## 🏗️ Architecture Overview
 
