@@ -62,7 +62,7 @@ The original estimates were optimized down to **$0-15/month** while still demons
 
 ## 🎯 Career Value vs Cost
 
-**Even at $0-15/month, you still demonstrate**:
+**Even at $0-15/month, it demonstrates**:
 - ✅ **Serverless Architecture** - Azure Functions + Static Web Apps
 - ✅ **NoSQL Database Skills** - Azure Tables (still NoSQL!)
 - ✅ **Security Best Practices** - Key Vault, HTTPS, managed identity
@@ -100,6 +100,6 @@ Stop-AzFunctionApp -ResourceGroupName "rg-azpracticeexam-dev" -Name "azpracticee
 
 ## 🎨 The Bottom Line
 
-**Total realistic cost for impressive portfolio project**: **$0-15/month**
+**Total realistic cost for this portfolio project**: **$0-15/month**
 
-This cost optimization story itself becomes a valuable talking point in interviews - showing both technical skills and business acumen!
+This cost optimization story itself shows both technical skills and business acumen!
