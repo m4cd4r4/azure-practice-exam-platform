@@ -62,7 +62,7 @@ The original estimates were optimized down to **$0-15/month** while still demons
 
 ## 🎯 Career Value vs Cost
 
-**Even at $0-15/month, you still demonstrate**:
+**Even at $0-15/month, it demonstrates**:
 - ✅ **Serverless Architecture** - Azure Functions + Static Web Apps
 - ✅ **NoSQL Database Skills** - Azure Tables (still NoSQL!)
 - ✅ **Security Best Practices** - Key Vault, HTTPS, managed identity
