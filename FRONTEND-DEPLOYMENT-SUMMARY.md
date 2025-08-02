@@ -96,6 +96,6 @@ After deployment, you'll have:
 
 ---
 
-**Your Azure Practice Exam Platform is now ready for full deployment!** 
+**This Azure Practice Exam Platform is now ready for full deployment!** 
 
-The frontend deployment setup maintains the cost-optimized approach while adding enterprise-grade hosting capabilities. You're all set to go live! 🚀
+The frontend deployment setup maintains the cost-optimized approach while adding enterprise-grade hosting capabilities. We're all set to go live! 🚀
