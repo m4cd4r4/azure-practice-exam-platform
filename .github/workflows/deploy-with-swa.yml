@@ -2,9 +2,9 @@ name: Deploy Azure Practice Exam Platform
 
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
   pull_request:
-    branches: [ main ]
+    branches: [ master ]
 
 env:
   AZURE_RESOURCE_GROUP: rg-azpracticeexam-dev
@@ -33,7 +33,7 @@ jobs:
   deploy-infrastructure:
     runs-on: ubuntu-latest
     needs: validate
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/master'
     outputs:
       staticWebAppName: ${{ steps.deploy.outputs.staticWebAppName }}
     steps:
@@ -120,7 +120,7 @@ jobs:
   deploy-functions:
     runs-on: ubuntu-latest
     needs: [deploy-infrastructure, build-backend]
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/master'
     steps:
     - name: Download artifacts
       uses: actions/download-artifact@v4
