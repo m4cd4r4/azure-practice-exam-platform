@@ -101,7 +101,6 @@ const Exam: React.FC<ExamProps> = ({ examType, onBack }) => {
   const restartExam = () => {
     setCurrentQuestionIndex(0);
     setAnswers({});
-    setExamCompleted(false);
     setShowResults(false);
     setError(null);
   };

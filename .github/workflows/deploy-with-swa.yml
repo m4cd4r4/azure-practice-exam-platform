@@ -50,15 +50,17 @@ jobs:
           --name ${{ env.AZURE_RESOURCE_GROUP }} \
           --location "${{ env.AZURE_LOCATION }}"
     
-    - name: Deploy ARM Template
-      id: deploy
-      uses: azure/arm-deploy@v1
-      with:
-        subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-        resourceGroupName: ${{ env.AZURE_RESOURCE_GROUP }}
-        template: ./infrastructure/arm-templates/main-cost-optimized-fixed.json
-        parameters: ./infrastructure/arm-templates/parameters/dev-cost-optimized.parameters.json
-        deploymentName: 'GitHubActions-${{ github.run_number }}'
+    - name: Deploy Static Web App
+      run: |
+        az staticwebapp create \
+          --name azpracticeexam-dev-swa \
+          --resource-group ${{ env.AZURE_RESOURCE_GROUP }} \
+          --source https://github.com/${{ github.repository }} \
+          --location "Central US" \
+          --branch master \
+          --app-location "/src/frontend" \
+          --output-location "build" \
+          --login-with-github
 
   build-frontend:
     runs-on: ubuntu-latest
