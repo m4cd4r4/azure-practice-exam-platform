@@ -27,7 +27,7 @@ jobs:
         subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
         resourceGroupName: ${{ env.AZURE_RESOURCE_GROUP }}
         template: ./infrastructure/arm-templates/main-cost-optimized-with-swa.json
-        parameters: ./infrastructure/arm-templates/parameters/dev-cost-optimized.parameters.json repositoryUrl=${{ github.server_url }}/${{ github.repository }}
+        parameters: ./infrastructure/arm-templates/parameters/dev-cost-optimized.parameters.json
         deploymentMode: Validate
 
   deploy-infrastructure:
@@ -57,7 +57,7 @@ jobs:
         subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
         resourceGroupName: ${{ env.AZURE_RESOURCE_GROUP }}
         template: ./infrastructure/arm-templates/main-cost-optimized-with-swa.json
-        parameters: ./infrastructure/arm-templates/parameters/dev-cost-optimized.parameters.json repositoryUrl=${{ github.server_url }}/${{ github.repository }}
+        parameters: ./infrastructure/arm-templates/parameters/dev-cost-optimized.parameters.json
         deploymentName: 'GitHubActions-${{ github.run_number }}'
 
   build-frontend:
