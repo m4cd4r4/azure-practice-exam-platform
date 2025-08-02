@@ -81,7 +81,7 @@ Frontend (React TS) → Static Web Apps → Azure Functions → Azure Tables
 
 ## 📞 Ready for Production
 
-Your Azure Practice Exam Platform demonstrates:
+This Azure Practice Exam Platform demonstrates:
 - ✅ **Enterprise cloud architecture**
 - ✅ **Professional DevOps practices**
 - ✅ **Cost-conscious design** ($0 frontend hosting)
