@@ -33,21 +33,84 @@ namespace ExamPlatform.Functions.Functions
 
                 var questions = new List<QuestionDto>();
                 
-                await foreach (var entity in tableClient.QueryAsync<QuestionEntity>(q => q.PartitionKey == examType.ToUpper()))
+                await foreach (var entity in tableClient.QueryAsync<TableEntity>(q => q.PartitionKey == examType.ToUpper()))
                 {
-                    var questionDto = new QuestionDto
+                    try
                     {
-                        Id = entity.Id,
-                        ExamType = entity.ExamType,
-                        Category = entity.Category,
-                        Difficulty = entity.Difficulty,
-                        Question = entity.Question,
-                        Options = JsonSerializer.Deserialize<List<string>>(entity.OptionsJson) ?? new List<string>(),
-                        CorrectAnswer = entity.CorrectAnswer,
-                        Explanation = entity.Explanation
-                    };
-                    questions.Add(questionDto);
+                        // Handle malformed JSON gracefully
+                        List<string> options = new List<string>();
+                        
+                        var optionsJson = entity.GetString("OptionsJson") ?? "";
+                        if (!string.IsNullOrEmpty(optionsJson))
+                        {
+                            try
+                            {
+                                // Try to deserialize as proper JSON first
+                                options = JsonSerializer.Deserialize<List<string>>(optionsJson) ?? new List<string>();
+                            }
+                            catch (JsonException)
+                            {
+                                // If JSON is malformed (missing quotes), try to fix it
+                                _logger.LogWarning($"Malformed JSON in question {entity.GetString("Id")}: {optionsJson}");
+                                
+                                // Try to parse malformed JSON like: [Option1,Option2,Option3]
+                                var fixedJson = FixMalformedJson(optionsJson);
+                                _logger.LogInformation($"Attempting to fix JSON for {entity.GetString("Id")}: {fixedJson}");
+                                
+                                try
+                                {
+                                    options = JsonSerializer.Deserialize<List<string>>(fixedJson) ?? new List<string>();
+                                }
+                                catch
+                                {
+                                    // If all else fails, create default options
+                                    _logger.LogError($"Could not parse options for question {entity.GetString("Id")}, using defaults");
+                                    options = new List<string> { "Option A", "Option B", "Option C", "Option D" };
+                                }
+                            }
+                        }
+
+                        // Handle CorrectAnswer conversion (might be stored as string)
+                        int correctAnswer = 0;
+                        var correctAnswerValue = entity["CorrectAnswer"];
+                        if (correctAnswerValue != null)
+                        {
+                            if (correctAnswerValue is int intValue)
+                            {
+                                correctAnswer = intValue;
+                            }
+                            else if (correctAnswerValue is string stringValue && int.TryParse(stringValue, out int parsedValue))
+                            {
+                                correctAnswer = parsedValue;
+                            }
+                            else
+                            {
+                                _logger.LogWarning($"Could not parse CorrectAnswer for question {entity.GetString("Id")}: {correctAnswerValue}");
+                            }
+                        }
+
+                        var questionDto = new QuestionDto
+                        {
+                            Id = entity.GetString("Id") ?? "",
+                            ExamType = entity.GetString("ExamType") ?? "",
+                            Category = entity.GetString("Category") ?? "",
+                            Difficulty = entity.GetString("Difficulty") ?? "",
+                            Question = entity.GetString("Question") ?? "",
+                            Options = options,
+                            CorrectAnswer = correctAnswer,
+                            Explanation = entity.GetString("Explanation") ?? ""
+                        };
+                        questions.Add(questionDto);
+                    }
+                    catch (Exception entityEx)
+                    {
+                        _logger.LogError(entityEx, $"Error processing question entity {entity.GetString("Id")}");
+                        // Skip this question and continue with others
+                        continue;
+                    }
                 }
+
+                _logger.LogInformation($"Successfully processed {questions.Count} questions for {examType}");
 
                 var response = req.CreateResponse(HttpStatusCode.OK);
                 await response.WriteAsJsonAsync(questions);
@@ -57,14 +120,39 @@ namespace ExamPlatform.Functions.Functions
             {
                 _logger.LogError(ex, "Error getting questions");
                 var response = req.CreateResponse(HttpStatusCode.InternalServerError);
-                await response.WriteStringAsync("Error retrieving questions");
+                await response.WriteStringAsync($"Error retrieving questions: {ex.Message}");
                 return response;
             }
         }
 
+        // Helper method to fix malformed JSON
+        private string FixMalformedJson(string malformedJson)
+        {
+            if (string.IsNullOrEmpty(malformedJson))
+                return "[]";
+
+            try
+            {
+                // Handle format like: [Option1,Option2,Option3]
+                if (malformedJson.StartsWith("[") && malformedJson.EndsWith("]"))
+                {
+                    var inner = malformedJson.Substring(1, malformedJson.Length - 2);
+                    var parts = inner.Split(',');
+                    var quotedParts = parts.Select(p => $"\"{p.Trim()}\"");
+                    return $"[{string.Join(",", quotedParts)}]";
+                }
+            }
+            catch
+            {
+                // If fixing fails, return empty array
+            }
+
+            return "[]";
+        }
+
         [Function("GetRandomQuestions")]
         public async Task<HttpResponseData> GetRandomQuestions(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "questions/{examType}/random/{count:int}")] HttpRequestData req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "questions/{examType}/random/{count:int}")] HttpRequestData req,
             string examType,
             int count)
         {
@@ -77,20 +165,67 @@ namespace ExamPlatform.Functions.Functions
 
                 var allQuestions = new List<QuestionDto>();
                 
-                await foreach (var entity in tableClient.QueryAsync<QuestionEntity>(q => q.PartitionKey == examType.ToUpper()))
+                await foreach (var entity in tableClient.QueryAsync<TableEntity>(q => q.PartitionKey == examType.ToUpper()))
                 {
-                    var questionDto = new QuestionDto
+                    try
                     {
-                        Id = entity.Id,
-                        ExamType = entity.ExamType,
-                        Category = entity.Category,
-                        Difficulty = entity.Difficulty,
-                        Question = entity.Question,
-                        Options = JsonSerializer.Deserialize<List<string>>(entity.OptionsJson) ?? new List<string>(),
-                        CorrectAnswer = entity.CorrectAnswer,
-                        Explanation = entity.Explanation
-                    };
-                    allQuestions.Add(questionDto);
+                        // Use the same JSON handling logic
+                        List<string> options = new List<string>();
+                        
+                        var optionsJson = entity.GetString("OptionsJson") ?? "";
+                        if (!string.IsNullOrEmpty(optionsJson))
+                        {
+                            try
+                            {
+                                options = JsonSerializer.Deserialize<List<string>>(optionsJson) ?? new List<string>();
+                            }
+                            catch (JsonException)
+                            {
+                                var fixedJson = FixMalformedJson(optionsJson);
+                                try
+                                {
+                                    options = JsonSerializer.Deserialize<List<string>>(fixedJson) ?? new List<string>();
+                                }
+                                catch
+                                {
+                                    options = new List<string> { "Option A", "Option B", "Option C", "Option D" };
+                                }
+                            }
+                        }
+
+                        // Handle CorrectAnswer conversion
+                        int correctAnswer = 0;
+                        var correctAnswerValue = entity["CorrectAnswer"];
+                        if (correctAnswerValue != null)
+                        {
+                            if (correctAnswerValue is int intValue)
+                            {
+                                correctAnswer = intValue;
+                            }
+                            else if (correctAnswerValue is string stringValue && int.TryParse(stringValue, out int parsedValue))
+                            {
+                                correctAnswer = parsedValue;
+                            }
+                        }
+
+                        var questionDto = new QuestionDto
+                        {
+                            Id = entity.GetString("Id") ?? "",
+                            ExamType = entity.GetString("ExamType") ?? "",
+                            Category = entity.GetString("Category") ?? "",
+                            Difficulty = entity.GetString("Difficulty") ?? "",
+                            Question = entity.GetString("Question") ?? "",
+                            Options = options,
+                            CorrectAnswer = correctAnswer,
+                            Explanation = entity.GetString("Explanation") ?? ""
+                        };
+                        allQuestions.Add(questionDto);
+                    }
+                    catch (Exception entityEx)
+                    {
+                        _logger.LogError(entityEx, $"Error processing question entity {entity.GetString("Id")}");
+                        continue;
+                    }
                 }
 
                 // Get random subset
@@ -105,7 +240,7 @@ namespace ExamPlatform.Functions.Functions
             {
                 _logger.LogError(ex, "Error getting random questions");
                 var response = req.CreateResponse(HttpStatusCode.InternalServerError);
-                await response.WriteStringAsync("Error retrieving questions");
+                await response.WriteStringAsync($"Error retrieving questions: {ex.Message}");
                 return response;
             }
         }
@@ -155,7 +290,7 @@ namespace ExamPlatform.Functions.Functions
             {
                 _logger.LogError(ex, "Error adding question");
                 var response = req.CreateResponse(HttpStatusCode.InternalServerError);
-                await response.WriteStringAsync("Error adding question");
+                await response.WriteStringAsync($"Error adding question: {ex.Message}");
                 return response;
             }
         }

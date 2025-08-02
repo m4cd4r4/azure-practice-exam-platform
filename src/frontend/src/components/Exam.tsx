@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Question from './Question';
-import { Question as QuestionType, getRandomQuestions, startExamSession, submitAnswer, completeExam, ExamSession, ExamResult } from '../services/api';
+import { Question as QuestionType, getQuestions } from '../services/api';
 
 interface ExamProps {
   examType: string;
@@ -13,9 +13,8 @@ const Exam: React.FC<ExamProps> = ({ examType, onBack }) => {
   const [answers, setAnswers] = useState<{ [key: number]: number }>({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [examSession, setExamSession] = useState<ExamSession | null>(null);
-  const [examResult, setExamResult] = useState<ExamResult | null>(null);
-  const [submittingAnswer, setSubmittingAnswer] = useState(false);
+  const [examCompleted, setExamCompleted] = useState(false);
+  const [showResults, setShowResults] = useState(false);
 
   useEffect(() => {
     const initializeExam = async () => {
@@ -23,13 +22,31 @@ const Exam: React.FC<ExamProps> = ({ examType, onBack }) => {
         setLoading(true);
         setError(null);
 
-        // Start exam session first
-        const session = await startExamSession(examType, 'anonymous', 10);
-        setExamSession(session);
-
-        // Get questions for this exam type
-        const fetchedQuestions = await getRandomQuestions(examType, 10);
-        setQuestions(fetchedQuestions);
+        // Get questions directly (bypass session management for now)
+        const fetchedQuestions = await getQuestions(examType);
+        
+        if (fetchedQuestions && fetchedQuestions.length > 0) {
+          // Filter out questions with invalid or empty options
+          const validQuestions = fetchedQuestions.filter(question => 
+            question.options && 
+            Array.isArray(question.options) && 
+            question.options.length > 0 &&
+            question.question && 
+            question.question.trim() !== ''
+          );
+          
+          if (validQuestions.length > 0) {
+            // Limit to 10 questions for better experience
+            const limitedQuestions = validQuestions.slice(0, 10);
+            setQuestions(limitedQuestions);
+            console.log(`Loaded ${limitedQuestions.length} valid questions for ${examType}`);
+            console.log('Filtered out invalid questions:', fetchedQuestions.length - validQuestions.length);
+          } else {
+            setError('No valid questions found for this exam type');
+          }
+        } else {
+          setError('No questions found for this exam type');
+        }
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to load exam');
         console.error('Error initializing exam:', err);
@@ -41,24 +58,11 @@ const Exam: React.FC<ExamProps> = ({ examType, onBack }) => {
     initializeExam();
   }, [examType]);
 
-  const handleAnswer = async (questionIndex: number, selectedAnswer: number) => {
+  const handleAnswer = (questionIndex: number, selectedAnswer: number) => {
     setAnswers((prevAnswers) => ({
       ...prevAnswers,
       [questionIndex]: selectedAnswer,
     }));
-
-    // Submit answer to API
-    if (examSession) {
-      try {
-        setSubmittingAnswer(true);
-        await submitAnswer(examSession.sessionId, questionIndex, selectedAnswer);
-      } catch (err) {
-        console.error('Error submitting answer:', err);
-        // Don't show error to user for individual answer submissions
-      } finally {
-        setSubmittingAnswer(false);
-      }
-    }
   };
 
   const handleNextQuestion = () => {
@@ -66,7 +70,7 @@ const Exam: React.FC<ExamProps> = ({ examType, onBack }) => {
       setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
     } else {
       // Complete the exam
-      completeExamSession();
+      completeExam();
     }
   };
 
@@ -76,44 +80,32 @@ const Exam: React.FC<ExamProps> = ({ examType, onBack }) => {
     }
   };
 
-  const completeExamSession = async () => {
-    if (!examSession) return;
+  const completeExam = () => {
+    setExamCompleted(true);
+    setShowResults(true);
+  };
 
-    try {
-      setLoading(true);
-      const result = await completeExam(examSession.sessionId);
-      setExamResult(result);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to complete exam');
-      console.error('Error completing exam:', err);
-    } finally {
-      setLoading(false);
-    }
+  const calculateResults = () => {
+    let correctCount = 0;
+    const totalQuestions = questions.length;
+    
+    questions.forEach((question, index) => {
+      const userAnswer = answers[index];
+      if (userAnswer === question.correctAnswer) {
+        correctCount++;
+      }
+    });
+    
+    const percentage = Math.round((correctCount / totalQuestions) * 100);
+    return { correctCount, totalQuestions, percentage };
   };
 
   const restartExam = () => {
-    setQuestions([]);
     setCurrentQuestionIndex(0);
     setAnswers({});
-    setExamSession(null);
-    setExamResult(null);
+    setExamCompleted(false);
+    setShowResults(false);
     setError(null);
-    
-    // Re-initialize
-    const initializeExam = async () => {
-      try {
-        setLoading(true);
-        const session = await startExamSession(examType, 'anonymous', 10);
-        setExamSession(session);
-        const fetchedQuestions = await getRandomQuestions(examType, 10);
-        setQuestions(fetchedQuestions);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to restart exam');
-      } finally {
-        setLoading(false);
-      }
-    };
-    initializeExam();
   };
 
   if (loading) {
@@ -148,8 +140,25 @@ const Exam: React.FC<ExamProps> = ({ examType, onBack }) => {
     );
   }
 
-  if (examResult) {
-    const percentage = Math.round((examResult.correctAnswers / examResult.totalQuestions) * 100);
+  if (!questions || questions.length === 0) {
+    return (
+      <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
+        <h3 className="text-lg font-semibold text-yellow-800 mb-2">No Questions Available</h3>
+        <p className="text-yellow-700 mb-4">
+          No valid questions found for {examType}. Questions may not be loaded yet or may have formatting issues.
+        </p>
+        <button
+          onClick={onBack}
+          className="px-4 py-2 bg-yellow-600 text-white rounded hover:bg-yellow-700"
+        >
+          Back to Exams
+        </button>
+      </div>
+    );
+  }
+
+  if (showResults) {
+    const { correctCount, totalQuestions, percentage } = calculateResults();
     const passed = percentage >= 70;
 
     return (
@@ -164,7 +173,7 @@ const Exam: React.FC<ExamProps> = ({ examType, onBack }) => {
             <div className="bg-green-50 p-4 rounded">
               <h4 className="font-semibold text-green-800">Correct Answers</h4>
               <p className="text-2xl font-bold text-green-600">
-                {examResult.correctAnswers} / {examResult.totalQuestions}
+                {correctCount} / {totalQuestions}
               </p>
             </div>
           </div>
@@ -180,7 +189,36 @@ const Exam: React.FC<ExamProps> = ({ examType, onBack }) => {
             </p>
           </div>
 
-          <div className="flex space-x-4">
+          {/* Show detailed results */}
+          <div className="mt-6">
+            <h4 className="font-semibold text-gray-800 mb-3">Question Review:</h4>
+            <div className="space-y-2 max-h-64 overflow-y-auto">
+              {questions.map((question, index) => {
+                const userAnswer = answers[index];
+                const isCorrect = userAnswer === question.correctAnswer;
+                
+                return (
+                  <div key={index} className={`p-3 rounded border ${isCorrect ? 'border-green-200 bg-green-50' : 'border-red-200 bg-red-50'}`}>
+                    <div className="text-sm">
+                      <strong>Q{index + 1}:</strong> {question.question}
+                    </div>
+                    <div className="text-xs mt-1">
+                      <span className={`font-semibold ${isCorrect ? 'text-green-700' : 'text-red-700'}`}>
+                        {isCorrect ? '✅ Correct' : '❌ Incorrect'}
+                      </span>
+                      {!isCorrect && userAnswer !== undefined && (
+                        <span className="text-gray-600 ml-2">
+                          Your answer: {question.options[userAnswer]} | Correct: {question.options[question.correctAnswer]}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="flex space-x-4 pt-4">
             <button
               onClick={restartExam}
               className="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
@@ -199,25 +237,10 @@ const Exam: React.FC<ExamProps> = ({ examType, onBack }) => {
     );
   }
 
-  if (questions.length === 0) {
-    return (
-      <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
-        <h3 className="text-lg font-semibold text-yellow-800 mb-2">No Questions Available</h3>
-        <p className="text-yellow-700 mb-4">
-          No questions found for {examType}. Questions may not be loaded yet.
-        </p>
-        <button
-          onClick={onBack}
-          className="px-4 py-2 bg-yellow-600 text-white rounded hover:bg-yellow-700"
-        >
-          Back to Exams
-        </button>
-      </div>
-    );
-  }
-
+  // At this point, we know questions array exists and has valid items
   const currentQuestion = questions[currentQuestionIndex];
   const isLastQuestion = currentQuestionIndex === questions.length - 1;
+  const hasAnsweredCurrent = answers[currentQuestionIndex] !== undefined;
 
   return (
     <div className="space-y-6">
@@ -256,13 +279,13 @@ const Exam: React.FC<ExamProps> = ({ examType, onBack }) => {
         onAnswer={(questionId: string, answerId: string) => 
           handleAnswer(currentQuestionIndex, parseInt(answerId))
         }
-        disabled={submittingAnswer}
+        disabled={false}
       />
 
       {/* Question Info */}
       <div className="flex space-x-4 text-sm text-gray-600">
-        <span>Category: {currentQuestion.category}</span>
-        <span>Difficulty: {currentQuestion.difficulty}</span>
+        <span>Category: {currentQuestion.category || 'General'}</span>
+        <span>Difficulty: {currentQuestion.difficulty || 'Medium'}</span>
       </div>
 
       {/* Navigation */}
@@ -277,12 +300,19 @@ const Exam: React.FC<ExamProps> = ({ examType, onBack }) => {
         
         <button
           onClick={handleNextQuestion}
-          disabled={submittingAnswer}
-          className="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50"
+          disabled={!hasAnsweredCurrent}
+          className="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {submittingAnswer ? 'Saving...' : isLastQuestion ? 'Complete Exam' : 'Next Question'}
+          {isLastQuestion ? 'Complete Exam' : 'Next Question'}
         </button>
       </div>
+
+      {/* Answer prompt */}
+      {!hasAnsweredCurrent && (
+        <div className="text-center text-gray-500 text-sm">
+          Please select an answer to continue
+        </div>
+      )}
     </div>
   );
 };
