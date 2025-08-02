@@ -7,8 +7,7 @@ import {
   logError, 
   shouldRetry, 
   calculateBackoffDelay,
-  ApiError,
-  NetworkError 
+  ApiError
 } from './errorHandler';
 
 // Initialize configuration logging

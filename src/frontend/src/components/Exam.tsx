@@ -13,7 +13,6 @@ const Exam: React.FC<ExamProps> = ({ examType, onBack }) => {
   const [answers, setAnswers] = useState<{ [key: number]: number }>({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [examCompleted, setExamCompleted] = useState(false);
   const [showResults, setShowResults] = useState(false);
 
   useEffect(() => {

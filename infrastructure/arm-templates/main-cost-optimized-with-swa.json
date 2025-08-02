@@ -1,10 +1,10 @@
 {
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-  "contentVersion": "1.0.2.0",
+  "contentVersion": "1.0.0.0",
   "metadata": {
-    "description": "Azure Practice Exam Platform - Cost-Optimized Infrastructure Template with Static Web Apps",
+    "description": "Azure Practice Exam Platform - Cost-Optimized Infrastructure Template (Fixed)",
     "author": "Azure Practice Exam Platform Team",
-    "version": "1.0.2",
+    "version": "1.0.1",
     "costOptimized": true
   },
   "parameters": {
@@ -44,29 +44,15 @@
       "metadata": {
         "description": "Tags to apply to all resources"
       }
-    },
-    "repositoryUrl": {
-      "type": "string",
-      "defaultValue": "https://github.com/your-username/azure-practice-exam-platform",
-      "metadata": {
-        "description": "GitHub repository URL for Static Web Apps"
-      }
-    },
-    "branch": {
-      "type": "string",
-      "defaultValue": "main",
-      "metadata": {
-        "description": "GitHub branch name"
-      }
     }
   },
   "variables": {
     "resourcePrefix": "[concat(parameters('projectName'), '-', parameters('environment'))]",
     "storageAccountName": "[toLower(concat(replace(variables('resourcePrefix'), '-', ''), 'storage'))]",
     "functionAppName": "[concat(variables('resourcePrefix'), '-functions')]",
-    "staticWebAppName": "[concat(variables('resourcePrefix'), '-swa')]",
+    "staticWebAppName": "[concat(variables('resourcePrefix'), '-webapp')]",
     "applicationInsightsName": "[concat(variables('resourcePrefix'), '-appinsights')]",
-    "keyVaultName": "[concat(replace(variables('resourcePrefix'), '-', ''), 'kv')]"
+    "keyVaultName": "[concat(variables('resourcePrefix'), '-kv')]"
   },
   "resources": [
     {
@@ -162,30 +148,9 @@
           "cors": {
             "allowedOrigins": [
               "https://portal.azure.com",
-              "[concat('https://', reference(resourceId('Microsoft.Web/staticSites', variables('staticWebAppName'))).defaultHostname)]",
               "*"
             ]
           }
-        }
-      }
-    },
-    {
-      "type": "Microsoft.Web/staticSites",
-      "apiVersion": "2023-01-01",
-      "name": "[variables('staticWebAppName')]",
-      "location": "Central US",
-      "tags": "[parameters('tags')]",
-      "sku": {
-        "name": "Free",
-        "tier": "Free"
-      },
-      "properties": {
-        "repositoryUrl": "[parameters('repositoryUrl')]",
-        "branch": "[parameters('branch')]",
-        "buildProperties": {
-          "appLocation": "/src/frontend",
-          "apiLocation": "",
-          "outputLocation": "build"
         }
       }
     },
@@ -209,7 +174,7 @@
         "enabledForTemplateDeployment": true,
         "enableSoftDelete": true,
         "softDeleteRetentionInDays": 7,
-        "enablePurgeProtection": true,
+        "enablePurgeProtection": false,
         "accessPolicies": [
           {
             "tenantId": "[subscription().tenantId]",
@@ -238,14 +203,6 @@
       "type": "string",
       "value": "[concat('https://', reference(resourceId('Microsoft.Web/sites', variables('functionAppName'))).defaultHostName)]"
     },
-    "staticWebAppName": {
-      "type": "string",
-      "value": "[variables('staticWebAppName')]"
-    },
-    "staticWebAppUrl": {
-      "type": "string",
-      "value": "[concat('https://', reference(resourceId('Microsoft.Web/staticSites', variables('staticWebAppName'))).defaultHostname)]"
-    },
     "keyVaultName": {
       "type": "string",
       "value": "[variables('keyVaultName')]"
@@ -256,7 +213,7 @@
     },
     "estimatedMonthlyCost": {
       "type": "string",
-      "value": "$0-10 AUD/month (Static Web Apps Free tier)"
+      "value": "$0-10 AUD/month"
     }
   }
 }
