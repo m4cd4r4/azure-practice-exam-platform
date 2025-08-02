@@ -13,16 +13,15 @@ namespace ExamPlatform.Functions.Functions
         private readonly ILogger _logger;
         private readonly TableServiceClient _tableServiceClient;
 
-        public QuestionFunctions(ILoggerFactory loggerFactory)
+        public QuestionFunctions(ILoggerFactory loggerFactory, TableServiceClient tableServiceClient)
         {
             _logger = loggerFactory.CreateLogger<QuestionFunctions>();
-            var connectionString = Environment.GetEnvironmentVariable("AzureWebJobsStorage");
-            _tableServiceClient = new TableServiceClient(connectionString);
+            _tableServiceClient = tableServiceClient;
         }
 
         [Function("GetQuestions")]
         public async Task<HttpResponseData> GetQuestions(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "questions/{examType}")] HttpRequestData req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "questions/{examType}")] HttpRequestData req,
             string examType)
         {
             _logger.LogInformation($"Getting questions for exam type: {examType}");

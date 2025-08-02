@@ -13,16 +13,15 @@ namespace ExamPlatform.Functions.Functions
         private readonly ILogger _logger;
         private readonly TableServiceClient _tableServiceClient;
 
-        public ExamSessionFunctions(ILoggerFactory loggerFactory)
+        public ExamSessionFunctions(ILoggerFactory loggerFactory, TableServiceClient tableServiceClient)
         {
             _logger = loggerFactory.CreateLogger<ExamSessionFunctions>();
-            var connectionString = Environment.GetEnvironmentVariable("AzureWebJobsStorage");
-            _tableServiceClient = new TableServiceClient(connectionString);
+            _tableServiceClient = tableServiceClient;
         }
 
         [Function("StartExamSession")]
         public async Task<HttpResponseData> StartExamSession(
-            [HttpTrigger(AuthorizationLevel.Function, "post", Route = "exam/start")] HttpRequestData req)
+            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "exam/start")] HttpRequestData req)
         {
             _logger.LogInformation("Starting new exam session");
 
@@ -102,7 +101,7 @@ namespace ExamPlatform.Functions.Functions
 
         [Function("SubmitAnswer")]
         public async Task<HttpResponseData> SubmitAnswer(
-            [HttpTrigger(AuthorizationLevel.Function, "post", Route = "exam/answer")] HttpRequestData req)
+            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "exam/answer")] HttpRequestData req)
         {
             _logger.LogInformation("Submitting answer");
 
@@ -154,7 +153,7 @@ namespace ExamPlatform.Functions.Functions
 
         [Function("CompleteExam")]
         public async Task<HttpResponseData> CompleteExam(
-            [HttpTrigger(AuthorizationLevel.Function, "post", Route = "exam/complete")] HttpRequestData req)
+            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "exam/complete")] HttpRequestData req)
         {
             _logger.LogInformation("Completing exam");
 

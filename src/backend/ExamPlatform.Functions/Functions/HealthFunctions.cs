@@ -14,23 +14,31 @@ namespace ExamPlatform.Functions.Functions
             _logger = loggerFactory.CreateLogger<HealthFunctions>();
         }
 
-        [Function("Health")]
-        public HttpResponseData Health(
+        [Function("HealthCheck")]
+        public async Task<HttpResponseData> HealthCheck(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "health")] HttpRequestData req)
         {
             _logger.LogInformation("Health check requested");
 
             var response = req.CreateResponse(HttpStatusCode.OK);
-            response.Headers.Add("Content-Type", "application/json");
-            
-            var healthStatus = new { 
+            await response.WriteAsJsonAsync(new { 
                 status = "healthy", 
                 timestamp = DateTime.UtcNow,
-                version = "1.0.0",
-                service = "Azure Practice Exam Platform API"
-            };
+                message = "Azure Function App is running"
+            });
             
-            response.WriteString(System.Text.Json.JsonSerializer.Serialize(healthStatus));
+            return response;
+        }
+
+        [Function("Ping")]
+        public async Task<HttpResponseData> Ping(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "ping")] HttpRequestData req)
+        {
+            _logger.LogInformation("Ping requested");
+
+            var response = req.CreateResponse(HttpStatusCode.OK);
+            await response.WriteStringAsync("pong");
+            
             return response;
         }
     }

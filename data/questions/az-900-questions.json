@@ -1,0 +1,227 @@
+[
+  {
+    "id": "az900-001",
+    "examType": "AZ-900",
+    "category": "Cloud Concepts",
+    "difficulty": "Easy",
+    "question": "What is cloud computing?",
+    "options": [
+      "The delivery of computing services over the internet",
+      "A type of software installed on local computers",
+      "A method of storing data on physical servers only",
+      "A network of connected personal computers"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Cloud computing is the delivery of computing services—including servers, storage, databases, networking, software, analytics, and intelligence—over the internet to offer faster innovation, flexible resources, and economies of scale."
+  },
+  {
+    "id": "az900-002",
+    "examType": "AZ-900",
+    "category": "Cloud Concepts",
+    "difficulty": "Easy",
+    "question": "Which cloud deployment model combines public and private clouds?",
+    "options": [
+      "Public cloud",
+      "Private cloud",
+      "Hybrid cloud",
+      "Community cloud"
+    ],
+    "correctAnswer": 2,
+    "explanation": "A hybrid cloud combines public and private clouds, allowing data and applications to be shared between them. This provides greater flexibility and more deployment options."
+  },
+  {
+    "id": "az900-003",
+    "examType": "AZ-900",
+    "category": "Cloud Concepts",
+    "difficulty": "Medium",
+    "question": "What are the three main cloud service models?",
+    "options": [
+      "SaaS, PaaS, IaaS",
+      "Public, Private, Hybrid",
+      "Compute, Storage, Network",
+      "Basic, Standard, Premium"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The three main cloud service models are Software as a Service (SaaS), Platform as a Service (PaaS), and Infrastructure as a Service (IaaS)."
+  },
+  {
+    "id": "az900-004",
+    "examType": "AZ-900",
+    "category": "Azure Services",
+    "difficulty": "Easy",
+    "question": "Which Azure service is used to create and manage virtual machines?",
+    "options": [
+      "Azure Storage",
+      "Azure Compute",
+      "Azure Virtual Machines",
+      "Azure Functions"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Azure Virtual Machines is the service that allows you to create and manage virtual machines in the Azure cloud."
+  },
+  {
+    "id": "az900-005",
+    "examType": "AZ-900",
+    "category": "Azure Services",
+    "difficulty": "Easy",
+    "question": "What is Azure Active Directory (Azure AD)?",
+    "options": [
+      "A file storage service",
+      "A virtual machine service",
+      "A cloud-based identity and access management service",
+      "A networking service"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Azure Active Directory (Azure AD) is Microsoft's cloud-based identity and access management service that helps users sign in and access resources."
+  },
+  {
+    "id": "az900-006",
+    "examType": "AZ-900",
+    "category": "Azure Services",
+    "difficulty": "Medium",
+    "question": "Which Azure service provides serverless computing?",
+    "options": [
+      "Azure Virtual Machines",
+      "Azure Functions",
+      "Azure Storage",
+      "Azure SQL Database"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Azure Functions is a serverless computing service that lets you run code on-demand without having to explicitly provision or manage infrastructure."
+  },
+  {
+    "id": "az900-007",
+    "examType": "AZ-900",
+    "category": "Security",
+    "difficulty": "Easy",
+    "question": "What is the Azure Security Center?",
+    "options": [
+      "A service for creating virtual networks",
+      "A unified security management and threat protection service",
+      "A backup service",
+      "A monitoring service for applications"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Azure Security Center (now part of Microsoft Defender for Cloud) is a unified security management and threat protection service that strengthens the security posture of your workloads."
+  },
+  {
+    "id": "az900-008",
+    "examType": "AZ-900",
+    "category": "Security",
+    "difficulty": "Medium",
+    "question": "Which Azure service helps protect against DDoS attacks?",
+    "options": [
+      "Azure Firewall",
+      "Azure DDoS Protection",
+      "Azure Security Center",
+      "Azure Key Vault"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Azure DDoS Protection provides protection against Distributed Denial of Service (DDoS) attacks for Azure applications."
+  },
+  {
+    "id": "az900-009",
+    "examType": "AZ-900",
+    "category": "Pricing",
+    "difficulty": "Easy",
+    "question": "What is the Azure pricing model called where you only pay for what you use?",
+    "options": [
+      "Fixed pricing",
+      "Subscription pricing",
+      "Pay-as-you-go",
+      "Enterprise pricing"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Pay-as-you-go is the Azure pricing model where you only pay for the cloud services you use, helping you lower operating costs and run your infrastructure more efficiently."
+  },
+  {
+    "id": "az900-010",
+    "examType": "AZ-900",
+    "category": "Pricing",
+    "difficulty": "Medium",
+    "question": "Which tool can help estimate costs for Azure services before deployment?",
+    "options": [
+      "Azure Cost Management",
+      "Azure Pricing Calculator",
+      "Azure Advisor",
+      "Azure Monitor"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The Azure Pricing Calculator helps you estimate costs for Azure services before you deploy them, allowing you to plan your budget effectively."
+  },
+  {
+    "id": "az900-011",
+    "examType": "AZ-900",
+    "category": "Azure Services",
+    "difficulty": "Easy",
+    "question": "What is Azure Blob Storage used for?",
+    "options": [
+      "Running virtual machines",
+      "Storing unstructured data like documents and media files",
+      "Managing user identities",
+      "Creating virtual networks"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Azure Blob Storage is used for storing unstructured data such as documents, images, videos, and other media files in the cloud."
+  },
+  {
+    "id": "az900-012",
+    "examType": "AZ-900",
+    "category": "Cloud Concepts",
+    "difficulty": "Medium",
+    "question": "What is high availability in cloud computing?",
+    "options": [
+      "The ability to access data from anywhere",
+      "The ability to scale resources up or down",
+      "The ability to keep services running even when components fail",
+      "The ability to pay only for what you use"
+    ],
+    "correctAnswer": 2,
+    "explanation": "High availability refers to the ability to keep services running even when some components fail, ensuring minimal downtime and continuous service availability."
+  },
+  {
+    "id": "az900-013",
+    "examType": "AZ-900",
+    "category": "Azure Services",
+    "difficulty": "Easy",
+    "question": "Which Azure service is used for hosting web applications?",
+    "options": [
+      "Azure Virtual Machines",
+      "Azure App Service",
+      "Azure Storage",
+      "Azure SQL Database"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Azure App Service is a fully managed platform for building, deploying, and scaling web applications and APIs."
+  },
+  {
+    "id": "az900-014",
+    "examType": "AZ-900",
+    "category": "Cloud Concepts",
+    "difficulty": "Easy",
+    "question": "What is scalability in cloud computing?",
+    "options": [
+      "The ability to backup data automatically",
+      "The ability to increase or decrease resources as needed",
+      "The ability to secure data",
+      "The ability to monitor applications"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Scalability is the ability to increase or decrease computing resources as needed to handle varying workloads efficiently."
+  },
+  {
+    "id": "az900-015",
+    "examType": "AZ-900",
+    "category": "Security",
+    "difficulty": "Easy",
+    "question": "What is Azure Key Vault used for?",
+    "options": [
+      "Storing virtual machines",
+      "Managing secrets, keys, and certificates",
+      "Creating storage accounts",
+      "Monitoring applications"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Azure Key Vault is used to securely store and manage secrets, encryption keys, and certificates used by cloud applications and services."
+  }
+]

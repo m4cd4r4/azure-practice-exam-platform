@@ -2,79 +2,145 @@
 
 🎯 **Mission**: Provide high-quality practice exams for Azure certifications while demonstrating enterprise-grade cloud architecture.
 
+## 🚀 LIVE DEPLOYMENT STATUS
+
+**Backend API**: ✅ **LIVE** at `https://azpracticeexam-dev-functions.azurewebsites.net`
+**Frontend**: ❌ **Configuration Issues** (localhost:3000 not loading)
+**Database**: ✅ **OPERATIONAL** (Azure Tables with sample data)
+
+### 🌐 Live Endpoints
+- **Health Check**: https://azpracticeexam-dev-functions.azurewebsites.net/api/health ✅
+- **Questions API**: https://azpracticeexam-dev-functions.azurewebsites.net/api/questions/AZ-104 ⚠️ (500 error - connection string issue)
+
 ## 🏗️ Architecture Overview
 
-This project demonstrates a cost-optimized, serverless-first architecture using Azure services:
+**DEPLOYED SERVICES:**
+- **Backend**: Azure Functions (.NET 8) - **LIVE** ✅
+- **Database**: Azure Tables - **OPERATIONAL** ✅  
+- **Storage**: Azure Storage Account - **CONFIGURED** ✅
+- **Frontend**: React TypeScript app - **NEEDS FIXING** ❌
 
-- **Frontend**: React app hosted on Azure Static Web Apps (Free tier)
-- **Backend**: Azure Functions (Consumption plan)
-- **Database**: Azure Tables for questions, optional SQL for analytics
-- **Monitoring**: Application Insights (Free tier)
-- **Security**: Azure Key Vault, managed identities
-- **Cost**: Optimized for `$0-15/month`
+## 📊 Current Project Status
+
+### ✅ COMPLETED
+- ✅ Azure infrastructure deployed (`rg-azpracticeexam-dev`)
+- ✅ C# .NET 8 Function App deployed to Azure
+- ✅ Azure Tables configured with question data
+- ✅ API endpoints created (health, questions, exam sessions)
+- ✅ Anonymous authentication configured
+- ✅ Sample AZ-104 questions uploaded
+- ✅ React frontend components developed
+
+### ⚠️ KNOWN ISSUES
+- ❌ Function App connection string configuration (causing 500 errors)
+- ❌ Frontend not loading at localhost:3000
+- ❌ Bulk question upload scripts need debugging
+- ❌ End-to-end testing incomplete
+
+### ⏳ PENDING
+- ⏳ Complete question database population (47 questions)
+- ⏳ Frontend deployment to Azure Static Web Apps
+- ⏳ Connection string troubleshooting
+- ⏳ End-to-end integration testing
 
 ## 🚀 Quick Start
 
-### Prerequisites
-- Azure subscription
-- Azure CLI or PowerShell
-- Node.js 18+ (for frontend development)
-- .NET 6+ (for backend development)
+### Test Live Backend APIs
 
-### Deployment
+**PowerShell:**
 ```powershell
-# 1. Deploy infrastructure
-cd infrastructure/scripts
-.\deploy.ps1 -Environment dev -ResourceGroupName "rg-azpracticeexam-dev" -Location "Australia East"
+# Health check (working)
+Invoke-RestMethod -Uri "https://azpracticeexam-dev-functions.azurewebsites.net/api/health" -Method GET
 
-# 2. Test deployment
-.\test-deployment.ps1 -ResourceGroupName "rg-azpracticeexam-dev"
+# Questions API (returns 500 - needs connection string fix)
+Invoke-RestMethod -Uri "https://azpracticeexam-dev-functions.azurewebsites.net/api/questions/AZ-104" -Method GET
 ```
 
-## 📊 Project Status
+**Curl:**
+```bash
+# Health check
+curl -X GET "https://azpracticeexam-dev-functions.azurewebsites.net/api/health"
 
-- ✅ Infrastructure design complete
-- ✅ Cost-optimized ARM templates ready
-- ⏳ Frontend development in progress
-- ⏳ Backend API development in progress
-- ⏳ Question database setup pending
+# Questions API
+curl -X GET "https://azpracticeexam-dev-functions.azurewebsites.net/api/questions/AZ-104"
+```
 
-## 💰 Cost Analysis
+### Run Frontend Locally (NEEDS FIXING)
 
-**Current monthly cost estimate**: $0-15 AUD
-- Azure Functions: $0-5
-- Storage Account: $0-2
-- Application Insights: $0 (free tier)
-- Static Web Apps: $0 (free tier)
-- Key Vault: $0-1
+```bash
+cd src/frontend
+npm install
+npm start
+# Should open at http://localhost:3000 (currently failing)
+```
 
-See [cost analysis documentation](docs/cost-analysis/) for detailed breakdown.
+### Add More Questions
+
+```powershell
+az storage entity insert --account-name azpracticeexamdevstorage --table-name Questions --entity "PartitionKey=AZ-104" "RowKey=az104-003" "Id=az104-003" "ExamType=AZ-104" "Category=Networking" "Difficulty=Medium" "Question=Which Azure service provides DDoS protection?" "OptionsJson=[`"Azure Firewall`",`"Azure DDoS Protection`",`"Network Security Groups`",`"Application Gateway`"]" "CorrectAnswer=1" "Explanation=Azure DDoS Protection provides comprehensive DDoS mitigation." --auth-mode key --if-exists replace
+```
+
+## 🔧 Deployed Infrastructure
+
+**Resource Group**: `rg-azpracticeexam-dev`
+**Region**: Australia East
+
+### Live Resources:
+- **Function App**: `azpracticeexam-dev-functions`
+- **Storage Account**: `azpracticeexamdevstorage`  
+- **Tables**: `Questions`, `ExamSessions`
 
 ## 🛠️ Technology Stack
 
-- **Infrastructure**: Azure ARM Templates, Bicep
-- **Frontend**: React, TypeScript, Tailwind CSS
-- **Backend**: Azure Functions, C# .NET 6
-- **Database**: Azure Tables, optional Azure SQL
-- **Monitoring**: Application Insights, Azure Monitor
-- **CI/CD**: GitHub Actions
-- **Security**: Azure Key Vault, Azure AD B2C
+**DEPLOYED:**
+- **Backend**: Azure Functions, C# .NET 8 ✅
+- **Database**: Azure Tables ✅
+- **Infrastructure**: ARM Templates ✅
+- **Authentication**: Anonymous (public access) ✅
 
-## 📚 Documentation
+**IN DEVELOPMENT:**
+- **Frontend**: React, TypeScript, Tailwind CSS ❌
+- **CI/CD**: GitHub Actions ⏳
+- **Monitoring**: Application Insights ⏳
 
-- [Architecture Documentation](docs/architecture/)
-- [Deployment Guide](docs/deployment/)
-- [API Documentation](docs/api/)
-- [Cost Analysis](docs/cost-analysis/)
+## 🐛 Troubleshooting
 
-## 🤝 Contributing
+### Fix Connection String Issue:
+1. Go to Azure Portal → Function Apps → `azpracticeexam-dev-functions`
+2. Settings → Configuration
+3. Add/Update: `AzureWebJobsStorage` with storage connection string
 
-This is a portfolio project, but feedback and suggestions are welcome!
+### Fix Frontend Loading:
+```bash
+cd src/frontend
+npm install --force
+npm audit fix
+npm start
+```
 
-## 📄 License
+## 📈 API Documentation
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+### Working Endpoints:
+- `GET /api/health` - Health check ✅
+- `GET /api/ping` - Simple ping ✅
+
+### Endpoints with Issues:
+- `GET /api/questions/{examType}` - Get questions ⚠️ (500 error)
+- `POST /api/exam/start` - Start exam session ⚠️ (500 error)
+- `POST /api/exam/answer` - Submit answer ⚠️ (500 error)
+
+## 💰 Current Cost: ~$0/month
+
+All services running on free/consumption tiers.
+
+## 🏆 Achievement Unlocked
+
+✅ **Successfully deployed C# .NET Function App to Azure**
+✅ **Configured Azure Tables with question data**  
+✅ **Created working API endpoints**
+✅ **Demonstrated serverless cloud architecture**
 
 ---
 
-**Built with ❤️ for the Azure community and career advancement!**
+**Status**: Backend deployed and partially functional. Frontend and full integration pending.
+**Last Updated**: August 2, 2025

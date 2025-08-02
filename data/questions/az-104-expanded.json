@@ -1,0 +1,482 @@
+[
+  {
+    "id": "az104-001",
+    "examType": "AZ-104",
+    "category": "Identity and Access Management",
+    "difficulty": "Easy",
+    "question": "What is an Azure AD Account?",
+    "options": [
+      "An identity created through Azure AD or another Microsoft cloud service, such as Microsoft 365",
+      "A local account on an Azure virtual machine (VM)",
+      "An account used for billing purposes in Azure",
+      "An account with administrative privileges for managing Azure resources"
+    ],
+    "correctAnswer": 0,
+    "explanation": "An Azure AD account refers to an identity created through Azure Active Directory (Azure AD) or another Microsoft cloud service, such as Microsoft 365. It allows users to authenticate and access various Microsoft services and resources."
+  },
+  {
+    "id": "az104-002",
+    "examType": "AZ-104",
+    "category": "Identity and Access Management",
+    "difficulty": "Medium",
+    "question": "Which of the following can be used to manage governance across multiple Azure subscriptions?",
+    "options": [
+      "Resource groups",
+      "Azure Policy",
+      "Management groups",
+      "Role-based access control (RBAC)"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Management groups provide a level of scope above subscriptions and allow you to apply governance conditions across multiple Azure subscriptions efficiently."
+  },
+  {
+    "id": "az104-003",
+    "examType": "AZ-104",
+    "category": "Identity and Access Management",
+    "difficulty": "Easy",
+    "question": "What is the maximum number of custom roles that can be created in an Azure AD tenant?",
+    "options": [
+      "2,000",
+      "5,000",
+      "10,000",
+      "Unlimited"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Azure AD supports up to 5,000 custom roles per tenant, providing flexibility for organizations to create specific role definitions for their needs."
+  },
+  {
+    "id": "az104-051",
+    "examType": "AZ-104",
+    "category": "Resource Management",
+    "difficulty": "Medium",
+    "question": "You need to ensure that all resources in a subscription are tagged with a cost center. What should you use?",
+    "options": [
+      "Azure Resource Manager templates",
+      "Azure Policy with a tagging policy",
+      "Azure Blueprints",
+      "Management groups"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Azure Policy can enforce tagging requirements automatically, ensuring all resources comply with organizational tagging standards for cost tracking."
+  },
+  {
+    "id": "az104-052",
+    "examType": "AZ-104",
+    "category": "Resource Management",
+    "difficulty": "Easy",
+    "question": "What is the maximum number of Azure subscriptions that can be associated with a single Azure AD tenant?",
+    "options": [
+      "100",
+      "500",
+      "1,000",
+      "Unlimited"
+    ],
+    "correctAnswer": 3,
+    "explanation": "There is no limit to the number of Azure subscriptions that can be associated with a single Azure AD tenant."
+  },
+  {
+    "id": "az104-053",
+    "examType": "AZ-104",
+    "category": "Resource Management",
+    "difficulty": "Medium",
+    "question": "Which Azure service allows you to create repeatable deployments with policy assignments and role assignments?",
+    "options": [
+      "Azure Resource Manager templates",
+      "Azure Blueprints",
+      "Azure Policy",
+      "Azure DevOps"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Azure Blueprints enable you to define a repeatable set of Azure resources that implements and adheres to organizational standards, patterns, and requirements."
+  },
+  {
+    "id": "az104-054",
+    "examType": "AZ-104",
+    "category": "Resource Management",
+    "difficulty": "Medium",
+    "question": "You need to move resources between resource groups. Which resources CANNOT be moved?",
+    "options": [
+      "Virtual machines",
+      "Virtual networks with VPN Gateway",
+      "Storage accounts",
+      "App Services"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Virtual networks that contain a VPN Gateway cannot be moved to another resource group or subscription until the VPN Gateway is deleted."
+  },
+  {
+    "id": "az104-055",
+    "examType": "AZ-104",
+    "category": "Resource Management",
+    "difficulty": "Easy",
+    "question": "What is the purpose of resource locks in Azure?",
+    "options": [
+      "To encrypt resources",
+      "To prevent accidental deletion or modification",
+      "To control access permissions",
+      "To monitor resource usage"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Resource locks prevent users from accidentally deleting or modifying critical Azure resources, even if they have the necessary permissions."
+  },
+  {
+    "id": "az104-056",
+    "examType": "AZ-104",
+    "category": "Virtual Machines",
+    "difficulty": "Medium",
+    "question": "Which feature allows you to create a VM from a generalized image without sysprep?",
+    "options": [
+      "Azure VM Image Builder",
+      "Managed Images",
+      "Shared Image Gallery",
+      "VM Capture"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Azure VM Image Builder can create generalized images without requiring you to manually run sysprep, automating the image creation process."
+  },
+  {
+    "id": "az104-057",
+    "examType": "AZ-104",
+    "category": "Virtual Machines",
+    "difficulty": "Easy",
+    "question": "What is the maximum number of availability zones in an Azure region?",
+    "options": [
+      "2",
+      "3",
+      "4",
+      "5"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Azure regions that support availability zones have exactly 3 availability zones to provide redundancy and fault tolerance."
+  },
+  {
+    "id": "az104-058",
+    "examType": "AZ-104",
+    "category": "Virtual Machines",
+    "difficulty": "Medium",
+    "question": "Which VM extension is used to join Windows VMs to an Active Directory domain?",
+    "options": [
+      "Custom Script Extension",
+      "PowerShell DSC Extension",
+      "JsonADDomainExtension",
+      "AADLoginForWindows"
+    ],
+    "correctAnswer": 2,
+    "explanation": "The JsonADDomainExtension is specifically designed to join Windows VMs to an Active Directory domain during or after deployment."
+  },
+  {
+    "id": "az104-059",
+    "examType": "AZ-104",
+    "category": "Virtual Machines",
+    "difficulty": "Easy",
+    "question": "What happens to VM pricing when you stop a VM using the Azure portal?",
+    "options": [
+      "You continue to pay for compute and storage",
+      "You pay only for storage",
+      "You pay only for compute",
+      "You pay nothing"
+    ],
+    "correctAnswer": 1,
+    "explanation": "When you stop (deallocate) a VM through the Azure portal, you only pay for the associated storage, not for compute resources."
+  },
+  {
+    "id": "az104-060",
+    "examType": "AZ-104",
+    "category": "Virtual Machines",
+    "difficulty": "Easy",
+    "question": "Which Azure service provides VM performance recommendations?",
+    "options": [
+      "Azure Advisor",
+      "Azure Monitor",
+      "Azure Security Center",
+      "Azure Cost Management"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Azure Advisor provides personalized recommendations to optimize VM performance, including right-sizing suggestions and performance improvements."
+  },
+  {
+    "id": "az104-061",
+    "examType": "AZ-104",
+    "category": "Networking",
+    "difficulty": "Easy",
+    "question": "What is the default DNS server for Azure VMs in a virtual network?",
+    "options": [
+      "8.8.8.8",
+      "168.63.129.16",
+      "1.1.1.1",
+      "Custom DNS server"
+    ],
+    "correctAnswer": 1,
+    "explanation": "168.63.129.16 is Azure's default DNS server that provides name resolution for Azure VMs within a virtual network."
+  },
+  {
+    "id": "az104-062",
+    "examType": "AZ-104",
+    "category": "Networking",
+    "difficulty": "Medium",
+    "question": "Which type of VPN connection provides the highest bandwidth?",
+    "options": [
+      "Point-to-Site VPN",
+      "Site-to-Site VPN",
+      "ExpressRoute",
+      "VNet Peering"
+    ],
+    "correctAnswer": 2,
+    "explanation": "ExpressRoute provides dedicated private connectivity with much higher bandwidth capabilities compared to VPN connections over the internet."
+  },
+  {
+    "id": "az104-063",
+    "examType": "AZ-104",
+    "category": "Networking",
+    "difficulty": "Medium",
+    "question": "What is the maximum number of subnets you can create in an Azure virtual network?",
+    "options": [
+      "100",
+      "1,000",
+      "3,000",
+      "10,000"
+    ],
+    "correctAnswer": 2,
+    "explanation": "An Azure virtual network can contain up to 3,000 subnets, providing extensive network segmentation capabilities."
+  },
+  {
+    "id": "az104-064",
+    "examType": "AZ-104",
+    "category": "Networking",
+    "difficulty": "Medium",
+    "question": "Which service enables you to monitor and diagnose network issues in Azure?",
+    "options": [
+      "Network Watcher",
+      "Azure Monitor",
+      "Traffic Analytics",
+      "Connection Monitor"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Azure Network Watcher provides tools to monitor, diagnose, and gain insights into network performance and health in Azure."
+  },
+  {
+    "id": "az104-065",
+    "examType": "AZ-104",
+    "category": "Networking",
+    "difficulty": "Medium",
+    "question": "What is the purpose of a User Defined Route (UDR)?",
+    "options": [
+      "To encrypt network traffic",
+      "To override default routing behavior",
+      "To load balance traffic",
+      "To filter network traffic"
+    ],
+    "correctAnswer": 1,
+    "explanation": "UDRs allow you to control traffic routing by overriding Azure's default system routes with custom routing rules."
+  },
+  {
+    "id": "az104-066",
+    "examType": "AZ-104",
+    "category": "Storage",
+    "difficulty": "Medium",
+    "question": "Which storage account type supports both hot and archive access tiers?",
+    "options": [
+      "StorageV2 (general purpose v2)",
+      "Storage (general purpose v1)",
+      "BlobStorage",
+      "FileStorage"
+    ],
+    "correctAnswer": 0,
+    "explanation": "General Purpose v2 storage accounts support all access tiers (hot, cool, and archive) and are the recommended storage account type."
+  },
+  {
+    "id": "az104-067",
+    "examType": "AZ-104",
+    "category": "Storage",
+    "difficulty": "Easy",
+    "question": "What is the maximum file size for Azure Files?",
+    "options": [
+      "1 TB",
+      "4 TB",
+      "5 TB",
+      "100 TB"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Individual files in Azure Files can be up to 4 TB in size, while the total share can be up to 100 TB."
+  },
+  {
+    "id": "az104-068",
+    "examType": "AZ-104",
+    "category": "Storage",
+    "difficulty": "Medium",
+    "question": "Which tool is used to migrate large amounts of data to Azure when network bandwidth is limited?",
+    "options": [
+      "AzCopy",
+      "Azure Data Factory",
+      "Azure Import/Export service",
+      "Azure Storage Explorer"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Azure Import/Export service allows you to ship physical drives to Azure data centers for large-scale data migration when network transfer is impractical."
+  },
+  {
+    "id": "az104-069",
+    "examType": "AZ-104",
+    "category": "Storage",
+    "difficulty": "Easy",
+    "question": "What is the minimum replication option for Azure managed disks?",
+    "options": [
+      "LRS (Locally Redundant Storage)",
+      "ZRS (Zone Redundant Storage)",
+      "GRS (Geo Redundant Storage)",
+      "No replication"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Azure managed disks use LRS as the minimum replication option, storing three copies of data within a single data center."
+  },
+  {
+    "id": "az104-070",
+    "examType": "AZ-104",
+    "category": "Storage",
+    "difficulty": "Easy",
+    "question": "Which Azure storage service is best for unstructured text or binary data?",
+    "options": [
+      "Azure Tables",
+      "Azure Queues",
+      "Azure Blobs",
+      "Azure Files"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Azure Blob storage is optimized for storing massive amounts of unstructured data, such as text or binary data."
+  },
+  {
+    "id": "az104-076",
+    "examType": "AZ-104",
+    "category": "Identity and Access Management",
+    "difficulty": "Easy",
+    "question": "What is the maximum number of applications that can be registered in an Azure AD tenant?",
+    "options": [
+      "1,000",
+      "10,000",
+      "100,000",
+      "Unlimited"
+    ],
+    "correctAnswer": 3,
+    "explanation": "There is no limit to the number of applications that can be registered in an Azure AD tenant."
+  },
+  {
+    "id": "az104-077",
+    "examType": "AZ-104",
+    "category": "Identity and Access Management",
+    "difficulty": "Medium",
+    "question": "Which Azure AD feature provides risk-based conditional access?",
+    "options": [
+      "Azure AD Premium P1",
+      "Azure AD Identity Protection",
+      "Azure AD Privileged Identity Management",
+      "Azure AD Access Reviews"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Identity Protection uses machine learning to detect suspicious activities and provides risk-based conditional access policies."
+  },
+  {
+    "id": "az104-081",
+    "examType": "AZ-104",
+    "category": "Monitoring",
+    "difficulty": "Medium",
+    "question": "Which Azure Monitor feature provides application performance monitoring?",
+    "options": [
+      "Log Analytics",
+      "Application Insights",
+      "Azure Metrics",
+      "Activity Logs"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Application Insights is the APM service within Azure Monitor that provides detailed application performance and usage analytics."
+  },
+  {
+    "id": "az104-082",
+    "examType": "AZ-104",
+    "category": "Monitoring",
+    "difficulty": "Easy",
+    "question": "What is the maximum retention period for metrics in Azure Monitor?",
+    "options": [
+      "30 days",
+      "90 days",
+      "1 year",
+      "2 years"
+    ],
+    "correctAnswer": 3,
+    "explanation": "Azure Monitor retains metrics for up to 2 years, with different granularities depending on the age of the data."
+  },
+  {
+    "id": "az104-083",
+    "examType": "AZ-104",
+    "category": "Monitoring",
+    "difficulty": "Medium",
+    "question": "Which query language is used in Azure Monitor Log Analytics?",
+    "options": [
+      "SQL",
+      "KQL (Kusto Query Language)",
+      "PowerShell",
+      "JSON"
+    ],
+    "correctAnswer": 1,
+    "explanation": "KQL (Kusto Query Language) is the query language used in Azure Monitor Log Analytics for analyzing log data."
+  },
+  {
+    "id": "az104-096",
+    "examType": "AZ-104",
+    "category": "Automation",
+    "difficulty": "Medium",
+    "question": "Which Azure service provides workflow automation capabilities?",
+    "options": [
+      "Azure Functions",
+      "Azure Logic Apps",
+      "Azure Automation",
+      "Azure DevOps"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Azure Logic Apps provides workflow automation and integration capabilities with numerous connectors and triggers."
+  },
+  {
+    "id": "az104-098",
+    "examType": "AZ-104",
+    "category": "Automation",
+    "difficulty": "Easy",
+    "question": "Which PowerShell module is required for managing Azure resources?",
+    "options": [
+      "AzureRM",
+      "Az",
+      "Azure",
+      "AzureAD"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The Az PowerShell module is the current and recommended module for managing Azure resources, replacing the older AzureRM module."
+  },
+  {
+    "id": "az104-099",
+    "examType": "AZ-104",
+    "category": "Automation",
+    "difficulty": "Medium",
+    "question": "What is the purpose of Azure Resource Manager templates?",
+    "options": [
+      "To monitor resources",
+      "To provide Infrastructure as Code",
+      "To backup resources",
+      "To secure resources"
+    ],
+    "correctAnswer": 1,
+    "explanation": "ARM templates enable Infrastructure as Code by allowing you to define and deploy Azure resources using declarative JSON syntax."
+  },
+  {
+    "id": "az104-100",
+    "examType": "AZ-104",
+    "category": "Automation",
+    "difficulty": "Easy",
+    "question": "Which Azure CLI command is used to create a resource group?",
+    "options": [
+      "az group create",
+      "az resource-group create",
+      "az create group",
+      "az rg create"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The 'az group create' command is used to create a new resource group in Azure CLI with the specified name and location."
+  }
+]
