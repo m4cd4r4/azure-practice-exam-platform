@@ -143,8 +143,8 @@ jobs:
 
   deploy-static-web-app:
     runs-on: ubuntu-latest
-    needs: [deploy-infrastructure, build-frontend]
-    if: github.ref == 'refs/heads/main'
+    needs: [build-frontend]
+    if: github.ref == 'refs/heads/master'
     steps:
     - uses: actions/checkout@v4
       with:
