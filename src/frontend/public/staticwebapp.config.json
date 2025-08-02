@@ -6,8 +6,7 @@
     },
     {
       "route": "/*",
-      "serve": "/index.html",
-      "statusCode": 200
+      "rewrite": "/index.html"
     }
   ],
   "navigationFallback": {
@@ -19,7 +18,6 @@
   },
   "globalHeaders": {
     "X-Content-Type-Options": "nosniff",
-    "X-Frame-Options": "DENY",
-    "Content-Security-Policy": "default-src 'self' https://azpracticeexam-dev-functions.azurewebsites.net https://*.applicationinsights.azure.com; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://azpracticeexam-dev-functions.azurewebsites.net https://*.applicationinsights.azure.com"
+    "X-Frame-Options": "DENY"
   }
 }
