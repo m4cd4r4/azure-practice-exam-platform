@@ -80,7 +80,6 @@ const Exam: React.FC<ExamProps> = ({ examType, onBack }) => {
   };
 
   const completeExam = () => {
-    setExamCompleted(true);
     setShowResults(true);
   };
 
